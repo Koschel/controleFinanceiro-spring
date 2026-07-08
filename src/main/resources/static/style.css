@@ -90,6 +90,28 @@ button:hover{
     background-color: #D32F2F;
 }
 
+.mensagem{
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.sucesso{
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.erro{
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.aviso{
+    background-color: #fff3cd;
+    color: #856404;
+}
+
 .saldo{
     border-left: 8px solid #2196F3;
 }

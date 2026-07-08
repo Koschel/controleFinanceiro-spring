@@ -50,10 +50,12 @@ fetch("http://localhost:8080/movimentacoes")
 }
 
 function salvar(){
-    
+
     const descricao = document.getElementById("descricao").value;
     const valor = document.getElementById("valor").value;
     const tipo = document.getElementById("tipo").value;
+
+
 
     const movimentacao = {
         descricao: descricao,
@@ -69,8 +71,11 @@ function salvar(){
         }).then(async response => {
           if (!response.ok){
               const erros = await response.json();
-              alert(erros.join("\n"));
-              return;
+              criarAlerta(erros.join("\n"), "erro");
+              /*alert(erros.join("\n"));
+              return;*/
+          }else{
+              criarAlerta("Salvo com sucesso", "sucesso");
           }
         }).then(()=> {
             limparFormulario();
@@ -84,6 +89,7 @@ function salvar(){
             body: JSON.stringify(movimentacao)
         }).then(() => {
             idEdicao = null;
+            criarAlerta("Edição realizada com com sucesso", "sucesso");
             limparFormulario();
             carregarMovimentacoes();
             carregarResumo();
@@ -148,4 +154,14 @@ function atualizarCard(tipoResumo, valor){
 function formartarTipo(tipo){
     return tipo.charAt(0).toUpperCase() +
            tipo.slice(1).toLowerCase();
+}
+
+function criarAlerta(mensagem, tipo){
+    const alerta = document.getElementById("mensagem");
+    alerta.classList.add(tipo);
+    alerta.innerHTML = `<h3>${mensagem}</h3>`;
+    setTimeout(() => {
+        alerta.innerHTML = "";
+        alerta.classList.remove("sucesso", "erro", "aviso");
+    }, 3000);
 }
