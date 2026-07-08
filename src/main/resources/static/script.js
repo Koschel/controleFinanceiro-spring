@@ -20,7 +20,7 @@ fetch("http://localhost:8080/movimentacoes")
             const tr = document.createElement("tr");
             tr.innerHTML = `<td>${mov.descricao}</td>
                             <td>${formatarMoeda(mov.valor)}</td>
-                            <td class="${tipoClasse}">${mov.tipo}</td>
+                            <td class="${tipoClasse}">${formartarTipo(mov.tipo)}</td>
                             <td>
                             </td>
                             `;
@@ -50,8 +50,7 @@ fetch("http://localhost:8080/movimentacoes")
 }
 
 function salvar(){
-
-
+    
     const descricao = document.getElementById("descricao").value;
     const valor = document.getElementById("valor").value;
     const tipo = document.getElementById("tipo").value;
@@ -144,4 +143,9 @@ function formatarMoeda(valor){
 function atualizarCard(tipoResumo, valor){
 
     document.getElementById(tipoResumo).textContent = formatarMoeda(valor);
+}
+
+function formartarTipo(tipo){
+    return tipo.charAt(0).toUpperCase() +
+           tipo.slice(1).toLowerCase();
 }
