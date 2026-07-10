@@ -1,5 +1,8 @@
 let idEdicao = null;
+let idExcluir =null;
+
 let temporizadorAlerta;
+
 
 function carregarMovimentacoes(){
 
@@ -33,7 +36,7 @@ fetch("http://localhost:8080/movimentacoes")
             const btnExcluir = document.createElement("button");
             btnExcluir.classList = ("btnExcluir");
             btnExcluir.textContent = "Excluir";
-            btnExcluir.onclick = () => excluir(mov.id);
+            btnExcluir.onclick = () => excluir(mov);
 
             /*Cria o botao de Editar*/
             const btnEditar = document.createElement("button")
@@ -106,12 +109,35 @@ function editar(mov){
     idEdicao = mov.id;
 }
 
-function excluir(id){
-    fetch(`/movimentacoes/${id}`, {
+function excluir(mov){
+
+    idExcluir = mov.id;
+
+    const movExcluir = document.getElementById("modalDescricao")
+
+    movExcluir.innerHTML = `<strong>Descrição:</strong>
+                            <p>${mov.descricao}</p>
+                            <strong>Valor:</strong>
+                            <p>${formatarMoeda(mov.valor)}</p>`;
+
+    document.getElementById("modalExcluir").style.display = "flex";
+
+}
+
+function fecharModal(){
+    document.getElementById("modalExcluir").style.display = "none";
+    idExcluir=null;
+}
+
+
+function confirmaExclusao(){
+    fetch(`/movimentacoes/${idExcluir}`, {
         method: "DELETE"
     }).then(() => {
+        fecharModal()
         carregarMovimentacoes();
         carregarResumo();
+        criarAlerta("Movimentação excluída com Sucesso!", "sucesso");
     });
 }
 
@@ -159,7 +185,7 @@ function formartarTipo(tipo){
 
 function criarAlerta(mensagem, tipo){
     const alerta = document.getElementById("mensagem");
-    
+
     clearTimeout(temporizadorAlerta);
 
     alerta.classList.remove("sucesso", "erro", "aviso");

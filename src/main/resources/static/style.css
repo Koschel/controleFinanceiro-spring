@@ -90,6 +90,13 @@ button:hover{
     background-color: #D32F2F;
 }
 
+.btnCancelar{
+    background: #777;
+}
+.btnCancelar:hover{
+    background: #555;
+}
+
 .mensagem{
     padding: 15px;
     border-radius: 8px;
@@ -158,3 +165,32 @@ button:hover{
     font-weight: bold;
     margin: 10px 0 0;
 }
+
+.modal{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-conteudo{
+    background: white;
+    width: 400px;
+    padding: 25px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,.3);
+}
+
+.modal-botoes{
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 25px;
+}
+

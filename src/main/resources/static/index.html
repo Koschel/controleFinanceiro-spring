@@ -24,7 +24,7 @@
             <option value="DESPESA">Despesa</option>
         </select>
         <button onclick="salvar()">Salvar</button>
-        <p> </p>
+        <p></p>
     </div>
 
 
@@ -60,7 +60,17 @@
 
     </div>
 </div>
-
+<div id="modalExcluir" class="modal">
+    <div class="modal-conteudo">
+        <h2>Confirma a exclusão</h2>
+        <p>Deseja excluir a movimentação abaixo? </p>
+        <div id="modalDescricao"></div>
+        <div class="modal-botoes">
+            <button class="btnCancelar" onclick="fecharModal()"> Cancelar</button>
+            <button class="btnExcluir" onclick="confirmaExclusao()"> Excluir</button>
+        </div>
+    </div>
+</div>
 
 <script src="script.js"></script>
 
