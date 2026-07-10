@@ -1,4 +1,5 @@
 let idEdicao = null;
+let temporizadorAlerta;
 
 function carregarMovimentacoes(){
 
@@ -158,10 +159,15 @@ function formartarTipo(tipo){
 
 function criarAlerta(mensagem, tipo){
     const alerta = document.getElementById("mensagem");
+    
+    clearTimeout(temporizadorAlerta);
+
+    alerta.classList.remove("sucesso", "erro", "aviso");
     alerta.classList.add(tipo);
     alerta.innerHTML = `<h3>${mensagem}</h3>`;
     setTimeout(() => {
         alerta.innerHTML = "";
-        alerta.classList.remove("sucesso", "erro", "aviso");
+
     }, 3000);
 }
+
