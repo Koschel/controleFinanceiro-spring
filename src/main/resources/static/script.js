@@ -105,13 +105,9 @@ function editar(mov){
     document.getElementById("valor").value = mov.valor;
     document.getElementById("tipo").value = mov.tipo;
 
-    atualizarMovimentacao();
+    modoEdicao(mov);
 
     idEdicao = mov.id;
-}
-
-function atualizarMovimentacao(){
-    modoEdicao();
 }
 
 function movimentacaoAtualizada(){
@@ -130,18 +126,24 @@ function cancelaAtualizacao(){
 function modoCadastro(){
     document.getElementById("btn-atualizar").style.display = "none";
     document.getElementById("btn-salvar").style.display = "flex";
+    document.getElementById("modo-editando").style.display = "none";
 }
 
-function modoEdicao(){
+function modoEdicao(mov){
     document.getElementById("btn-atualizar").style.display = "flex";
     document.getElementById("btn-salvar").style.display = "none";
+
+    const editando = document.getElementById("modo-editando");
+    editando.innerHTML=`<h3>Editando: <strong>${mov.descricao}</strong></h3>`;
+    editando.style.display = "flex";
+
 }
 
 function excluir(mov){
 
     idExcluir = mov.id;
 
-    const movExcluir = document.getElementById("modalDescricao")
+    const movExcluir = document.getElementById("modalDescricao");
 
     movExcluir.innerHTML = `<strong>Descrição:</strong>
                             <p>${mov.descricao}</p>
