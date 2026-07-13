@@ -97,6 +97,10 @@ button:hover{
     background: #555;
 }
 
+#btn-atualizar{
+    display: none;
+}
+
 .mensagem{
     padding: 15px;
     border-radius: 8px;

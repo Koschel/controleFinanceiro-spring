@@ -92,8 +92,7 @@ function salvar(){
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(movimentacao)
         }).then(() => {
-            idEdicao = null;
-            criarAlerta("Edição realizada com com sucesso", "sucesso");
+            movimentacaoAtualizada();
             limparFormulario();
             carregarMovimentacoes();
             carregarResumo();
@@ -106,7 +105,36 @@ function editar(mov){
     document.getElementById("valor").value = mov.valor;
     document.getElementById("tipo").value = mov.tipo;
 
+    atualizarMovimentacao();
+
     idEdicao = mov.id;
+}
+
+function atualizarMovimentacao(){
+    modoEdicao();
+}
+
+function movimentacaoAtualizada(){
+    idEdicao = null;
+    criarAlerta("Edição realizada com com sucesso", "sucesso");
+    modoCadastro();
+}
+
+function cancelaAtualizacao(){
+    criarAlerta("Edição cancelada!", "aviso");
+    limparFormulario();
+    modoCadastro();
+    idEdicao = null;
+}
+
+function modoCadastro(){
+    document.getElementById("btn-atualizar").style.display = "none";
+    document.getElementById("btn-salvar").style.display = "flex";
+}
+
+function modoEdicao(){
+    document.getElementById("btn-atualizar").style.display = "flex";
+    document.getElementById("btn-salvar").style.display = "none";
 }
 
 function excluir(mov){
