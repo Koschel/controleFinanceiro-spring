@@ -18,16 +18,15 @@
 
     <div>
         <div id="modo-editando"></div>
-        <label>Descrição:</label>
-        <input type="text" id="descricao" required>
-        <label>Valor:</label>
-        <input type="number" id="valor" min="0.01" step="0.01" required>
+        <input type="text" id="descricao" placeholder="Descrição" required>
+        <input type="number" id="valor" min="0.01" step="0.01" placeholder="Valor" required>
         <select id="tipo">
             <option value="RECEITA">Receita</option>
             <option value="DESPESA">Despesa</option>
         </select>
         <div id="btn-salvar">
             <button class="btnSalvar" onclick="salvar()">Salvar</button>
+            <button class="btnCancelar" onclick="carregarResumo()">Carregar movimentações</button>
         </div>
         <div id="btn-atualizar">
             <button class="btnAtualizar" onclick="salvar()">Atualizar</button>
@@ -55,6 +54,10 @@
     </div>
 
     <div>
+        <input type="text" id="pesquisa" placeholder="Pesquisar movimentação..." oninput="pesquisarMovimentacao()">
+
+    </div>
+    <div id="mensagemTabela">
         <table>
             <thead>
             <tr>
