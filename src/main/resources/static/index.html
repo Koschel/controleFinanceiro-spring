@@ -56,11 +56,24 @@
     <div>
         <input type="text" id="pesquisa" placeholder="Pesquisar movimentação..." oninput="aplicarFiltros()">
 
-        <select id="filtroTipo" onchange="aplicarFiltros()">
-            <option value="TODOS">Todos</option>
-            <option value="RECEITA">Receitas</option>
-            <option value="DESPESA">Despesas</option>
-        </select>
+        <div class ="filtros">
+            <button id="btnTodos"
+                    class="btnFiltro ativo"
+                    onclick="selecionarFiltro('TODOS')">
+                Todos
+            </button>
+            <button id="btnReceita"
+                    class="btnFiltro ativo"
+                    onclick="selecionarFiltro('RECEITA')">
+                Receitas
+            </button>
+            <button id="btnDespesa"
+                    class="btnFiltro ativo"
+                    onclick="selecionarFiltro('DESPESA')">
+                Despesas
+            </button>
+            <p></p>
+        </div>
 
     </div>
     <div id="mensagemTabela">

@@ -101,6 +101,20 @@ button:hover{
     display: none;
 }
 
+.btnFiltro{
+    padding: 10px 20px;
+    border:none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #DDD;
+    transition: .3s;
+}
+
+.btnFiltro.ativo{
+    background: #1976D2;
+    color:white;
+}
+
 #modo-editando{
     display:none;
     padding:15px;

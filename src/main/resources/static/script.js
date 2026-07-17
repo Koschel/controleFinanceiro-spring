@@ -2,6 +2,7 @@ let idEdicao = null;
 let idExcluir = null;
 
 let movimentacoes = [];
+let filtroAtual = "TODOS";
 
 let temporizadorAlerta;
 
@@ -63,9 +64,28 @@ function renderizarTabela(lista) {
     })
 }
 
+function selecionarFiltro(tipo){
+    filtroAtual = tipo;
+
+    document.getElementById("btnTodos").classList.remove("ativo");
+    document.getElementById("btnReceita").classList.remove("ativo");
+    document.getElementById("btnDespesa").classList.remove("ativo");
+
+    if(tipo === "TODOS"){
+        document.getElementById("btnTodos").classList.add("ativo");
+    }if (tipo === "RECEITA"){
+        document.getElementById("btnReceita").classList.add("ativo");
+    }if (tipo === "DESPESA"){
+        document.getElementById("btnDespesa").classList.add("ativo");
+    }
+
+    aplicarFiltros();
+}
+
 function aplicarFiltros() {
     const itemPesquisa = converteMinusculo(document.getElementById("pesquisa").value);
-    const filtro = document.getElementById("filtroTipo").value;
+    const filtro = filtroAtual;
+
 
     /*Pesquisa*/
     const pesquisa = movimentacoes.filter(m => {
@@ -85,6 +105,8 @@ function aplicarFiltros() {
 
     renderizarTabela(resultado);
 }
+
+
 
 function salvar() {
 
