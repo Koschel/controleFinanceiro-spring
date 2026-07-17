@@ -63,11 +63,12 @@ function renderizarTabela(lista) {
     })
 }
 
-function pesquisarMovimentacao() {
+function aplicarFiltros() {
     const itemPesquisa = converteMinusculo(document.getElementById("pesquisa").value);
+    const filtro = document.getElementById("filtroTipo").value;
 
-
-    const resultado = movimentacoes.filter(m => {
+    /*Pesquisa*/
+    const pesquisa = movimentacoes.filter(m => {
 
         const descricao = converteMinusculo(m.descricao);
         const tipo = converteMinusculo(m.tipo);
@@ -75,6 +76,11 @@ function pesquisarMovimentacao() {
         return descricao.includes(itemPesquisa) ||
             tipo.includes(itemPesquisa);
 
+    });
+
+    /*Filtro*/
+    const resultado = pesquisa.filter(p => {
+        return filtro === "TODOS" || p.tipo === filtro;
     });
 
     renderizarTabela(resultado);

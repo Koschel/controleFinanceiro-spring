@@ -54,7 +54,13 @@
     </div>
 
     <div>
-        <input type="text" id="pesquisa" placeholder="Pesquisar movimentação..." oninput="pesquisarMovimentacao()">
+        <input type="text" id="pesquisa" placeholder="Pesquisar movimentação..." oninput="aplicarFiltros()">
+
+        <select id="filtroTipo" onchange="aplicarFiltros()">
+            <option value="TODOS">Todos</option>
+            <option value="RECEITA">Receitas</option>
+            <option value="DESPESA">Despesas</option>
+        </select>
 
     </div>
     <div id="mensagemTabela">
