@@ -26,7 +26,6 @@
         </select>
         <div id="btn-salvar">
             <button class="btnSalvar" onclick="salvar()">Salvar</button>
-            <button class="btnCancelar" onclick="carregarResumo()">Carregar movimentações</button>
         </div>
         <div id="btn-atualizar">
             <button class="btnAtualizar" onclick="salvar()">Atualizar</button>
@@ -53,10 +52,16 @@
         </div>
     </div>
 
+    <div class="dashboard">
+
+        <canvas id="graficoFinanceiro"></canvas>
+
+    </div>
+
     <div>
         <input type="text" id="pesquisa" placeholder="Pesquisar movimentação..." oninput="aplicarFiltros()">
 
-        <div class ="filtros">
+        <div class="filtros">
             <button id="btnTodos"
                     class="btnFiltro ativo"
                     onclick="selecionarFiltro('TODOS')">
@@ -74,6 +79,24 @@
             </button>
             <p></p>
         </div>
+
+        <select id="ordenacao" onchange="aplicarFiltros()">
+            <option value="DESCRICAO_ASC">
+                Descrição (A-Z)
+            </option>
+
+            <option value="DESCRICAO_DESC">
+                Descrição (Z-A)
+            </option>
+
+            <option value="VALOR_ASC">
+                Valor (Menor > Maior)
+            </option>
+
+            <option value="VALOR_DESC">
+                Valor (Maior < Menor)
+            </option>
+        </select>
 
     </div>
     <div id="mensagemTabela">
@@ -105,6 +128,7 @@
 </div>
 
 <script src="script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </body>
 </html>

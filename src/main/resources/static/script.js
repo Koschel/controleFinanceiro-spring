@@ -64,28 +64,48 @@ function renderizarTabela(lista) {
     })
 }
 
-function selecionarFiltro(tipo){
+function selecionarFiltro(tipo) {
     filtroAtual = tipo;
 
     document.getElementById("btnTodos").classList.remove("ativo");
     document.getElementById("btnReceita").classList.remove("ativo");
     document.getElementById("btnDespesa").classList.remove("ativo");
 
-    if(tipo === "TODOS"){
+    if (tipo === "TODOS") {
         document.getElementById("btnTodos").classList.add("ativo");
-    }if (tipo === "RECEITA"){
+    }
+    if (tipo === "RECEITA") {
         document.getElementById("btnReceita").classList.add("ativo");
-    }if (tipo === "DESPESA"){
+    }
+    if (tipo === "DESPESA") {
         document.getElementById("btnDespesa").classList.add("ativo");
     }
 
     aplicarFiltros();
 }
 
+function ordenarLista(lista, ordenacao) {
+
+    const copia = [lista];
+
+    switch (ordenacao) {
+        case "DESCRICAO_ASC":
+            return copia.sort((a, b) => a.descricao.localeCompare(b.descricao));
+        case "DESCRICAO_DESC":
+            return copia.sort((a, b) => b.descricao.localeCompare(a.descricao));
+        case "VALOR_ASC":
+            return copia.sort((a, b) => a.valor - b.valor);
+        case "VALOR_DESC":
+            return copia.sort((a, b) => b.valor - a.valor);
+        default:
+            return copia
+    }
+}
+
 function aplicarFiltros() {
     const itemPesquisa = converteMinusculo(document.getElementById("pesquisa").value);
     const filtro = filtroAtual;
-
+    const ordenacao = document.getElementById("ordenacao").value;
 
     /*Pesquisa*/
     const pesquisa = movimentacoes.filter(m => {
@@ -99,13 +119,14 @@ function aplicarFiltros() {
     });
 
     /*Filtro*/
-    const resultado = pesquisa.filter(p => {
+    let resultado = pesquisa.filter(p => {
         return filtro === "TODOS" || p.tipo === filtro;
     });
 
+    resultado = ordenarLista(resultado, ordenacao)
+
     renderizarTabela(resultado);
 }
-
 
 
 function salvar() {
