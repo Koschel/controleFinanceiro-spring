@@ -4,6 +4,8 @@ let idExcluir = null;
 let movimentacoes = [];
 let filtroAtual = "TODOS";
 
+let grafico= null
+
 let temporizadorAlerta;
 
 
@@ -64,6 +66,29 @@ function renderizarTabela(lista) {
     })
 }
 
+function atualizarGrafico(receita, despesa){
+    if (grafico){
+        grafico.destroy();
+    }
+
+    const ctx = document.getElementById("graficoFinanceiro");
+
+    grafico = new Chart(ctx, {
+        type:"doughnut",
+        data: {
+            label: ["Receitas", "Despesas"],
+            datasets: [{
+                data: [receita, despesa],
+                backgroundColor:["#4CAF50", "#F44336"]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRation: false
+        }
+    });
+}
+
 function selecionarFiltro(tipo) {
     filtroAtual = tipo;
 
@@ -86,7 +111,7 @@ function selecionarFiltro(tipo) {
 
 function ordenarLista(lista, ordenacao) {
 
-    const copia = [lista];
+    const copia = [...lista];
 
     switch (ordenacao) {
         case "DESCRICAO_ASC":
@@ -261,6 +286,7 @@ function carregarResumo() {
         atualizarCard("saldo", data.saldo);
         atualizarCard("receitas", data.receitas);
         atualizarCard("despesas", data.despesas);
+        atualizarGrafico(data.receitas, data.despesas);
     }).then(() => {
         carregarMovimentacoes();
     }).catch(error => {
