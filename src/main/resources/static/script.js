@@ -151,9 +151,11 @@ function aplicarFiltros() {
 
         const descricao = converteMinusculo(m.descricao);
         const tipo = converteMinusculo(m.tipo);
+        const categoria = converteMinusculo(m.categoria);
 
         return descricao.includes(itemPesquisa) ||
-            tipo.includes(itemPesquisa);
+            tipo.includes(itemPesquisa) ||
+            categoria.includes(itemPesquisa);
 
     });
 
