@@ -53,6 +53,7 @@ public class MovimentacaoService {
         movimentacao.setDescricao(novaMovimentacao.getDescricao());
         movimentacao.setValor(novaMovimentacao.getValor());
         movimentacao.setTipo(novaMovimentacao.getTipo());
+        movimentacao.setCategoria(novaMovimentacao.getCategoria());
 
         return repository.save(movimentacao);
 
@@ -90,6 +91,9 @@ public class MovimentacaoService {
         }
         if (movimentacao.getTipo() == null){
             throw new IllegalArgumentException("O campo Tipo é obrigatório.");
+        }
+        if (movimentacao.getCategoria() == null){
+            throw new IllegalArgumentException("O campo Categoria é obrigatório.");
         }
     }
 }

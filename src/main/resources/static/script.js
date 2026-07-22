@@ -11,7 +11,7 @@ let temporizadorAlerta;
 
 function carregarMovimentacoes() {
 
-    fetch("http://localhost:8080/movimentacoes")
+    fetch("/movimentacoes")
         .then(response => {
             if (!response.ok) {
                 throw new Error("Erro ao carregar Movimentações.");
@@ -38,15 +38,14 @@ function renderizarTabela(lista) {
         const tipoClasse = mov.tipo === "RECEITA" ? "receita" : "despesa";
 
         const tr = document.createElement("tr");
+
         tr.innerHTML = `<td>${mov.descricao}</td>
                             <td>${formatarMoeda(mov.valor)}</td>
                             <td class="${tipoClasse}">${formartarTipo(mov.tipo)}</td>
-                            <td>
-                            </td>
+                            <td>${formatarCategoria(mov.categoria)}</td>
                             `;
 
-        const tdAcoes = tr.children[3];
-
+        const tdAcoes = document.createElement("td")
 
         /*Cria o botao de excluir*/
         const btnExcluir = document.createElement("button");
@@ -62,6 +61,8 @@ function renderizarTabela(lista) {
 
         tdAcoes.appendChild(btnEditar);
         tdAcoes.appendChild(btnExcluir);
+        tr.appendChild(tdAcoes);
+
         tabela.appendChild(tr);
     })
 }
@@ -84,7 +85,20 @@ function atualizarGrafico(receita, despesa){
         },
         options: {
             responsive: true,
-            maintainAspectRation: false
+            maintainAspectRation: false,
+            plugins:{
+                title:{
+                    display: true,
+                    text: "Resumo Financeiro"
+                },
+                legend:{
+                    position:"bottom"
+                }
+            }
+
+        },
+        animation:{
+          duration: 1000
         }
     });
 }
@@ -159,23 +173,32 @@ function salvar() {
     const descricao = document.getElementById("descricao").value;
     const valor = document.getElementById("valor").value;
     const tipo = document.getElementById("tipo").value;
+    const categoria = document.getElementById("categoria").value;
 
 
     const movimentacao = {
         descricao: descricao,
-        valor: valor,
-        tipo: tipo
+        valor: Number(valor),
+        tipo: tipo,
+        categoria: categoria
     };
 
     if (idEdicao == null) {
-        fetch("http://localhost:8080/movimentacoes", {
+        fetch("/movimentacoes", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(movimentacao)
         }).then(async response => {
             if (!response.ok) {
-                const erros = await response.json();
-                criarAlerta(erros.join("\n"), "erro");
+                console.log("Status:", response.status);
+
+                const texto = await response.text();
+                console.log("Resposta da API:", texto);
+
+                criarAlerta("Erro ao salvar.", "erro");
+
+                /*const erros = await response.json();
+                criarAlerta(erros.join("\n"), "erro");*/
             } else {
                 criarAlerta("Salvo com sucesso", "sucesso");
             }
@@ -202,6 +225,7 @@ function editar(mov) {
     document.getElementById("descricao").value = mov.descricao;
     document.getElementById("valor").value = mov.valor;
     document.getElementById("tipo").value = mov.tipo;
+    document.getElementById("categoria").value = mov.categoria;
 
     modoEdicao(mov);
 
@@ -309,6 +333,13 @@ function atualizarCard(tipoResumo, valor) {
 function formartarTipo(tipo) {
     return tipo.charAt(0).toUpperCase() +
         tipo.slice(1).toLowerCase();
+}
+
+function formatarCategoria(categoria){
+    return categoria
+        .toLowerCase()
+        .replaceAll("_", " ")
+        .replace(/\b\w/g, letra => letra.toUpperCase());
 }
 
 function criarAlerta(mensagem, tipo) {

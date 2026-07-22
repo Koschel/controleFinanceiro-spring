@@ -23,6 +23,10 @@ public class Movimentacao {
     @Enumerated(EnumType.STRING)
     private TipoMovimentacao tipo;
 
+    @NotNull(message = "Categoria é obrigatória" )
+    @Enumerated(EnumType.STRING)
+    private Categoria categoria;
+
     public Long getId() {
         return id;
     }
@@ -48,5 +52,13 @@ public class Movimentacao {
 
     public void setTipo(TipoMovimentacao tipo) {
         this.tipo = tipo;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 }
