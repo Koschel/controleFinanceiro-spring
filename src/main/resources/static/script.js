@@ -60,15 +60,8 @@ function salvar() {
             body: JSON.stringify(movimentacao)
         }).then(async response => {
             if (!response.ok) {
-                console.log("Status:", response.status);
-
-                const texto = await response.text();
-                console.log("Resposta da API:", texto);
-
-                criarAlerta("Erro ao salvar.", "erro");
-
-                /*const erros = await response.json();
-                criarAlerta(erros.join("\n"), "erro");*/
+                const erros = await response.json();
+                criarAlerta(erros.join("\n"), "erro");
             } else {
                 criarAlerta("Salvo com sucesso", "sucesso");
             }
