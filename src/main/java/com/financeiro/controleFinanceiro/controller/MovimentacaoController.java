@@ -6,6 +6,7 @@ import com.financeiro.controleFinanceiro.sevice.MovimentacaoService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -32,7 +33,7 @@ public class MovimentacaoController {
     }
 
     @GetMapping("/saldo")
-    public Double saldo(){
+    public BigDecimal saldo(){
         return service.calcularSaldo();
     }
 

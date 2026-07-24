@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
+import java.math.BigDecimal;
+
 @Entity
 public class Movimentacao {
 
@@ -17,7 +19,7 @@ public class Movimentacao {
 
     @NotNull(message = "O valor é obrigatório")
     @Positive(message = "O valor precisa ser maior que Zero (0)")
-    private Double valor;
+    private BigDecimal valor;
 
     @NotNull(message = "O tipo é obrigatório")
     @Enumerated(EnumType.STRING)
@@ -39,10 +41,10 @@ public class Movimentacao {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-    public Double getValor() {
+    public BigDecimal getValor() {
         return valor;
     }
-    public void setValor(Double valor) {
+    public void setValor(BigDecimal valor) {
         this.valor = valor;
     }
 

@@ -1,38 +1,40 @@
 package com.financeiro.controleFinanceiro.model;
 
+import java.math.BigDecimal;
+
 public class ResumoFinanceiro {
 
-    private Double saldo;
-    private Double receitas;
-    private Double despesas;
+    private BigDecimal saldo;
+    private BigDecimal receitas;
+    private BigDecimal despesas;
 
-    public ResumoFinanceiro(Double despesas, Double receitas, Double saldo) {
+    public ResumoFinanceiro(BigDecimal despesas, BigDecimal receitas, BigDecimal saldo) {
         this.despesas = despesas;
         this.receitas = receitas;
         this.saldo = saldo;
     }
 
-    public Double getSaldo() {
+    public BigDecimal getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(Double saldo) {
+    public void setSaldo(BigDecimal saldo) {
         this.saldo = saldo;
     }
 
-    public Double getReceitas() {
+    public BigDecimal getReceitas() {
         return receitas;
     }
 
-    public void setReceitas(Double receitas) {
+    public void setReceitas(BigDecimal receitas) {
         this.receitas = receitas;
     }
 
-    public Double getDespesas() {
+    public BigDecimal getDespesas() {
         return despesas;
     }
 
-    public void setDespesas(Double despesas) {
+    public void setDespesas(BigDecimal despesas) {
         this.despesas = despesas;
     }
 }

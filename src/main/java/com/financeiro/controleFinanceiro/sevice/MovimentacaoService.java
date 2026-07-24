@@ -6,6 +6,7 @@ import com.financeiro.controleFinanceiro.model.TipoMovimentacao;
 import com.financeiro.controleFinanceiro.repository.MovimentacaoRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -28,16 +29,16 @@ public class MovimentacaoService {
         return repository.findAll();
     }
 
-    public Double calcularSaldo(){
+    public BigDecimal calcularSaldo(){
         return repository.findAll()
                 .stream()
-                .mapToDouble(mov -> {
+                .map(mov -> {
                     if(mov.getTipo() ==
                     TipoMovimentacao.RECEITA){
                         return mov.getValor();
                     }
-                        return  -mov.getValor();
-                }).sum();
+                        return mov.getValor().negate();
+                }).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public void excluir(Long id) {
@@ -61,19 +62,20 @@ public class MovimentacaoService {
 
     public ResumoFinanceiro gerarResumo(){
 
-        double despesas = repository.findAll()
+        BigDecimal despesas = repository.findAll()
                 .stream()
                 .filter(m -> m.getTipo() == TipoMovimentacao.DESPESA)
-                .mapToDouble(Movimentacao::getValor)
-                .sum();
+                .map(Movimentacao::getValor)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        double receitas = repository.findAll()
+
+        BigDecimal receitas = repository.findAll()
                 .stream()
                 .filter(m -> m.getTipo() == TipoMovimentacao.RECEITA)
-                .mapToDouble(Movimentacao::getValor)
-                .sum();
+                .map(Movimentacao::getValor)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        double saldo = receitas - despesas;
+        BigDecimal saldo = receitas.subtract(despesas);
 
         return new ResumoFinanceiro(despesas, receitas, saldo);
     }
@@ -86,7 +88,7 @@ public class MovimentacaoService {
         if (movimentacao.getValor() == null){
             throw new IllegalArgumentException("O campo Valor é obrigatório.");
         }
-        if (movimentacao.getValor() <= 0 ){
+        if (movimentacao.getValor().compareTo(BigDecimal.ZERO) <= 0 ){
             throw new IllegalArgumentException("O campo Valor precisa ser maior que Zero (0).");
         }
         if (movimentacao.getTipo() == null){
