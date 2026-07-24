@@ -62,18 +62,18 @@ public class MovimentacaoService {
 
     public ResumoFinanceiro gerarResumo(){
 
-        BigDecimal despesas = repository.findAll()
-                .stream()
-                .filter(m -> m.getTipo() == TipoMovimentacao.DESPESA)
-                .map(Movimentacao::getValor)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        List<Movimentacao> movimentacoes = repository.findAll();
 
+        BigDecimal receitas = BigDecimal.ZERO;
+        BigDecimal despesas = BigDecimal.ZERO;
 
-        BigDecimal receitas = repository.findAll()
-                .stream()
-                .filter(m -> m.getTipo() == TipoMovimentacao.RECEITA)
-                .map(Movimentacao::getValor)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        for(Movimentacao mov : movimentacoes){
+            if (mov.getTipo() == TipoMovimentacao.RECEITA){
+                receitas = receitas.add(mov.getValor());
+            } else{
+                despesas = despesas.subtract(mov.getValor());
+            }
+        }
 
         BigDecimal saldo = receitas.subtract(despesas);
 
