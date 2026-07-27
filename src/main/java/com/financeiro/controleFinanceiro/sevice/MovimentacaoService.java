@@ -71,7 +71,7 @@ public class MovimentacaoService {
             if (mov.getTipo() == TipoMovimentacao.RECEITA){
                 receitas = receitas.add(mov.getValor());
             } else{
-                despesas = despesas.subtract(mov.getValor());
+                despesas = despesas.add(mov.getValor());
             }
         }
 
