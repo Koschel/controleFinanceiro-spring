@@ -1,6 +1,6 @@
 package com.financeiro.controleFinanceiro.config;
 
-import com.financeiro.controleFinanceiro.sevice.UsuarioDetailsService;
+import com.financeiro.controleFinanceiro.service.UsuarioDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -39,12 +39,9 @@ public class SecurityConfig {
     @Bean
     public AuthenticationProvider authenticationProvider(){
 
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-
-        provider.setUserDetailsService(usuarioDetailsService);
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider(usuarioDetailsService);
+        
         provider.setPasswordEncoder(passwordEncoder());
-
-
 
         return provider;
 

@@ -1,10 +1,7 @@
-package com.financeiro.controleFinanceiro.sevice;
+package com.financeiro.controleFinanceiro.service;
 
 import com.financeiro.controleFinanceiro.model.Usuario;
 import com.financeiro.controleFinanceiro.repository.UsuarioRepository;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;

@@ -2,7 +2,7 @@ package com.financeiro.controleFinanceiro.controller;
 
 import com.financeiro.controleFinanceiro.model.Movimentacao;
 import com.financeiro.controleFinanceiro.model.ResumoFinanceiro;
-import com.financeiro.controleFinanceiro.sevice.MovimentacaoService;
+import com.financeiro.controleFinanceiro.service.MovimentacaoService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 

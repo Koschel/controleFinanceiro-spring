@@ -1,4 +1,4 @@
-package com.financeiro.controleFinanceiro.sevice;
+package com.financeiro.controleFinanceiro.service;
 
 import com.financeiro.controleFinanceiro.model.Movimentacao;
 import com.financeiro.controleFinanceiro.model.ResumoFinanceiro;

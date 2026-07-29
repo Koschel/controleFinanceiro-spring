@@ -1,7 +1,7 @@
 package com.financeiro.controleFinanceiro.controller;
 
 import com.financeiro.controleFinanceiro.model.Usuario;
-import com.financeiro.controleFinanceiro.sevice.UsuarioService;
+import com.financeiro.controleFinanceiro.service.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
