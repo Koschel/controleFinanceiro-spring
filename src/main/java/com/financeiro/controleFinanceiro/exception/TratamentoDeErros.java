@@ -22,4 +22,9 @@ public class TratamentoDeErros {
 
         return ResponseEntity.badRequest().body(erros);
     }
+
+    public ResponseEntity<List<String>> tratarRegraNegocio(IllegalArgumentException ex){
+        return ResponseEntity.badRequest()
+                .body(List.of(ex.getMessage()));
+    }
 }
