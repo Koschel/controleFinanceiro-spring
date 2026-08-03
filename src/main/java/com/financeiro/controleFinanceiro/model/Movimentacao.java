@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
+
 import java.math.BigDecimal;
 
 @Entity
@@ -28,6 +29,10 @@ public class Movimentacao {
     @NotNull(message = "Categoria é obrigatória" )
     @Enumerated(EnumType.STRING)
     private Categoria categoria;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 
     public Long getId() {
         return id;
@@ -62,5 +67,13 @@ public class Movimentacao {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }

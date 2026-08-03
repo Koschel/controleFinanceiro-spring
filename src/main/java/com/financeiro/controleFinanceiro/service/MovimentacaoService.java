@@ -3,7 +3,11 @@ package com.financeiro.controleFinanceiro.service;
 import com.financeiro.controleFinanceiro.model.Movimentacao;
 import com.financeiro.controleFinanceiro.model.ResumoFinanceiro;
 import com.financeiro.controleFinanceiro.model.TipoMovimentacao;
+import com.financeiro.controleFinanceiro.model.Usuario;
 import com.financeiro.controleFinanceiro.repository.MovimentacaoRepository;
+import com.financeiro.controleFinanceiro.repository.UsuarioRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -13,24 +17,36 @@ import java.util.List;
 public class MovimentacaoService {
 
     private final MovimentacaoRepository repository;
+    private final UsuarioRepository usuarioRepository;
 
-    public MovimentacaoService(MovimentacaoRepository repository){
+    public MovimentacaoService(MovimentacaoRepository repository, UsuarioRepository usuarioRepository) {
         this.repository = repository;
+        this.usuarioRepository = usuarioRepository;
     }
 
     public Movimentacao salvar(Movimentacao movimentacao){
 
         validaMovimentacao(movimentacao);
 
+        Usuario usuario = obterUsuarioLogado();
+
+        movimentacao.setUsuario(usuario);
+
         return repository.save(movimentacao);
     }
 
     public List<Movimentacao> listar(){
-        return repository.findAll();
+
+        Usuario usuario = obterUsuarioLogado();
+
+        return repository.findByUsuario(usuario);
     }
 
     public BigDecimal calcularSaldo(){
-        return repository.findAll()
+
+        Usuario usuario =obterUsuarioLogado();
+
+        return repository.findByUsuario(usuario)
                 .stream()
                 .map(mov -> {
                     if(mov.getTipo() ==
@@ -62,7 +78,9 @@ public class MovimentacaoService {
 
     public ResumoFinanceiro gerarResumo(){
 
-        List<Movimentacao> movimentacoes = repository.findAll();
+        Usuario usuario = obterUsuarioLogado();
+
+        List<Movimentacao> movimentacoes = repository.findByUsuario(usuario);
 
         BigDecimal receitas = BigDecimal.ZERO;
         BigDecimal despesas = BigDecimal.ZERO;
@@ -78,6 +96,18 @@ public class MovimentacaoService {
         BigDecimal saldo = receitas.subtract(despesas);
 
         return new ResumoFinanceiro(despesas, receitas, saldo);
+    }
+
+    private Usuario obterUsuarioLogado() {
+
+        Authentication authentication =
+                SecurityContextHolder.getContext().getAuthentication();
+
+        String email = authentication.getName();
+
+        return usuarioRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new RuntimeException("Usuário não encontrado."));
     }
 
 
