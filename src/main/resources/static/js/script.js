@@ -1,4 +1,15 @@
 // =====================
+// Bloqueia o acesso sem Token
+// =====================
+const token = localStorage.getItem("token");
+
+if(!token){
+    window.location.href = "login.html";
+}
+
+carregarResumo();
+
+// =====================
 // Variáveis Globais
 // =====================
 let idEdicao = null;
@@ -38,6 +49,13 @@ function carregarResumo() {
 // CRUD
 // =====================
 
+function getAuthHeaders(){
+    return{
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+    };
+}
+
 function salvar() {
 
     const descricao = document.getElementById("descricao").value;
@@ -56,7 +74,7 @@ function salvar() {
     if (idEdicao == null) {
         fetch("/movimentacoes", {
             method: "POST",
-            headers: {"Content-Type": "application/json"},
+            headers: getAuthHeaders(),
             body: JSON.stringify(movimentacao)
         }).then(async response => {
             if (!response.ok) {
@@ -73,7 +91,7 @@ function salvar() {
     } else {
         fetch(`/movimentacoes/${idEdicao}`, {
             method: "PUT",
-            headers: {"Content-Type": "application/json"},
+            headers: getAuthHeaders(),
             body: JSON.stringify(movimentacao)
         }).then(() => {
             movimentacaoAtualizada();
@@ -374,3 +392,4 @@ function criarAlerta(mensagem, tipo) {
 function converteMinusculo(texto) {
     return texto.toLowerCase();
 }
+
