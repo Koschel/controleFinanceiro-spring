@@ -1,3 +1,9 @@
+const token = localStorage.getItem("token");
+
+if (token) {
+    window.location.href = "index.html";
+}
+
 async function login() {
 
     const email = document.getElementById("email").value;
@@ -19,7 +25,6 @@ async function login() {
             mensagemErro.textContent = "E-mail ou senha inválidos.";
             return;
         }
-        console.log("Passei aqui")
         const data = await response.json();
         localStorage.setItem("token", data.token);
         window.location.href = "index.html";

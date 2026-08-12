@@ -27,6 +27,7 @@ public class Usuario {
     @Column(unique = true)
     private String email;
 
+    @JsonIgnore
     @NotBlank(message = "Senha é obrigatória")
     private String senha;
 

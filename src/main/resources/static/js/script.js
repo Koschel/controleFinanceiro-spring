@@ -85,6 +85,7 @@ function salvar() {
             }
         }).then(() => {
             limparFormulario();
+            carregarUsuarioLogado();
             carregarMovimentacoes();
             carregarResumo();
         });
@@ -96,6 +97,7 @@ function salvar() {
         }).then(() => {
             movimentacaoAtualizada();
             limparFormulario();
+            carregarUsuarioLogado();
             carregarMovimentacoes();
             carregarResumo();
         })
@@ -146,6 +148,7 @@ function confirmaExclusao() {
         method: "DELETE"
     }).then(() => {
         fecharModal()
+        carregarUsuarioLogado();
         carregarMovimentacoes();
         carregarResumo();
         criarAlerta("Movimentação excluída com Sucesso!", "sucesso");
@@ -159,6 +162,9 @@ function carregarMovimentacoes() {
 
     fetch("/movimentacoes")
         .then(response => {
+            if (!verificaAutenticacao(response)){
+                return;
+            }
             if (!response.ok) {
                 throw new Error("Erro ao carregar Movimentações.");
             }
@@ -167,6 +173,7 @@ function carregarMovimentacoes() {
 
         movimentacoes = data;
         renderizarTabela(movimentacoes)
+        carregarUsuarioLogado();
 
     }).catch(error => {
         alert(error.message);
@@ -393,3 +400,39 @@ function converteMinusculo(texto) {
     return texto.toLowerCase();
 }
 
+function carregarUsuarioLogado(){
+
+    fetch("/usuarios/me",{
+        headers: getAuthHeaders()
+    }).then(response => {
+
+        if (response.status === 401){
+            localStorage.removeItem("token");
+            window.location.href = "login.html";
+            return;
+        }
+
+        if (!response.ok){
+            throw new Error("Erro ao carregar usuário.");
+        }
+        return response.json();
+    }).then(usuario => {
+        document.getElementById("usuarioLogado").textContent = `Bem-vindo, ${usuario.nome}`;
+    }).catch(error => {
+        console.error(error);
+    });
+}
+
+function deslogar(){
+    localStorage.removeItem("token");
+    window.location.href = "login.html";
+}
+
+function verificaAutenticacao(response){
+    if(response.status === 401){
+        localStorage.removeItem("token");
+        window.location.href = "login.html";
+        return false;
+    }
+    return true;
+}
