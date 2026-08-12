@@ -58,14 +58,22 @@ public class MovimentacaoService {
     }
 
     public void excluir(Long id) {
-        repository.deleteById(id);
+        Usuario usuario = obterUsuarioLogado();
+
+        Movimentacao movimentacao = repository
+                .findByIdAndUsuario(id, usuario)
+                .orElseThrow(() -> new RuntimeException("Movimentação não encontrada."));
+
+        repository.delete(movimentacao);
     }
 
     public Movimentacao atualizar(Long id, Movimentacao novaMovimentacao){
 
         validaMovimentacao(novaMovimentacao);
 
-        Movimentacao movimentacao = repository.findById(id).orElseThrow();
+        Usuario usuario = obterUsuarioLogado();
+
+        Movimentacao movimentacao = repository.findByIdAndUsuario(id, usuario).orElseThrow(() -> new RuntimeException("Movimentação não encontrada."));
 
         movimentacao.setDescricao(novaMovimentacao.getDescricao());
         movimentacao.setValor(novaMovimentacao.getValor());
