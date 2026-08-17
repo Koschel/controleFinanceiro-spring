@@ -26,8 +26,18 @@ let temporizadorAlerta;
 // Inicialização
 // =====================
 
+function getAuthHeaders(){
+    return{
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+    };
+}
+
 function carregarResumo() {
-    fetch("/movimentacoes/resumo")
+    fetch("/movimentacoes/resumo", {
+        method: "GET",
+        headers: getAuthHeaders()
+    })
         .then(response => {
             if (!response.ok) {
                 throw new Error("Erro ao carregar resumo.");
@@ -49,12 +59,7 @@ function carregarResumo() {
 // CRUD
 // =====================
 
-function getAuthHeaders(){
-    return{
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${localStorage.getItem("token")}`
-    };
-}
+
 
 function salvar() {
 
@@ -145,7 +150,8 @@ function excluir(mov) {
 
 function confirmaExclusao() {
     fetch(`/movimentacoes/${idExcluir}`, {
-        method: "DELETE"
+        method: "DELETE",
+        headers: getAuthHeaders()
     }).then(() => {
         fecharModal()
         carregarUsuarioLogado();
@@ -161,6 +167,7 @@ function confirmaExclusao() {
 function carregarMovimentacoes() {
 
     fetch("/movimentacoes", {
+        method: "GET",
         headers: getAuthHeaders()
     })
         .then(response => {
@@ -405,6 +412,7 @@ function converteMinusculo(texto) {
 function carregarUsuarioLogado(){
 
     fetch("/usuarios/me",{
+        method: "GET",
         headers: getAuthHeaders()
     }).then(response => {
 
