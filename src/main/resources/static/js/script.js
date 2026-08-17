@@ -160,7 +160,9 @@ function confirmaExclusao() {
 // =====================
 function carregarMovimentacoes() {
 
-    fetch("/movimentacoes")
+    fetch("/movimentacoes", {
+        headers: getAuthHeaders()
+    })
         .then(response => {
             if (!verificaAutenticacao(response)){
                 return;
